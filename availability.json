@@ -1,9 +1,16 @@
 {
   "note": "",
   "items": [
-    "isuzu",
-    "m3"
+    "cb-black",
+    "cb-latte",
+    "cb-coco",
+    "t-earl",
+    "t-eb",
+    "t-thai",
+    "cocoa"
   ],
   "styles": [],
-  "milks": []
+  "milks": [
+    "oat"
+  ]
 }
