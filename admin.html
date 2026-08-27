@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>desk club — เปิด/ปิดเมนูวันนี้</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Noto+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#182A4E;--cream:#F5F2EA;--orange:#EE6A2C;--matcha:#D8E3B4;
+      --mute:#6E7A90;--line:#DFD9CB;--safe-b:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--cream);color:var(--navy);
+  font-family:"Noto Sans Thai",-apple-system,sans-serif;font-size:15px;
+  padding-bottom:calc(90px + var(--safe-b))}
+.wrap{max-width:520px;margin:0 auto;padding:20px}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+h1{font-family:"Archivo",sans-serif;font-size:26px;letter-spacing:-.02em;margin:0 0 2px}
+h1 i{color:var(--orange);font-style:normal}
+.sub{color:var(--mute);font-size:13px;margin:0 0 18px}
+.label{font-family:"Archivo",sans-serif;font-size:11px;letter-spacing:.14em;
+  color:var(--mute);margin:22px 0 8px}
+.row{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);
+  border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.row .n{flex:1;min-width:0}
+.row .n b{font-family:"Archivo",sans-serif;font-size:14.5px;display:block}
+.row .n span{font-size:11.5px;color:var(--mute)}
+.row.off{background:#EDE9DF}
+.row.off .n b{text-decoration:line-through;color:var(--mute)}
+.sw{width:52px;height:31px;border-radius:99px;background:#C9C3B5;position:relative;
+  flex:none;transition:.18s}
+.sw i{position:absolute;top:3px;left:3px;width:25px;height:25px;border-radius:50%;
+  background:#fff;transition:.18s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.sw.on{background:#7FA84B}
+.sw.on i{left:24px}
+textarea{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px 14px;
+  font:inherit;font-size:14px;color:var(--navy);background:#fff;resize:vertical;min-height:72px}
+.bar{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(10px + var(--safe-b));
+  background:linear-gradient(to top,var(--cream) 62%,rgba(245,242,234,0))}
+.bar-in{max-width:520px;margin:0 auto;display:flex;gap:10px}
+.cta{flex:1;background:var(--navy);color:#fff;border-radius:99px;height:54px;
+  display:flex;align-items:center;justify-content:center;font-weight:700}
+.cta.ghost{flex:0 0 auto;background:#fff;color:var(--navy);border:1px solid var(--line);padding:0 18px}
+.cta[disabled]{opacity:.45}
+.msg{margin:14px 0 0;padding:12px 14px;border-radius:12px;font-size:13px;display:none}
+.msg.ok{display:block;background:var(--matcha);color:#3D4A22}
+.msg.err{display:block;background:#F6D9CE;color:#8A3312}
+.setup{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.setup input{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;
+  font:inherit;font-size:14px;margin-top:8px}
+.setup p{font-size:12.5px;color:var(--mute);line-height:1.5}
+code{background:#EDE9DF;padding:1px 5px;border-radius:4px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>วันนี้ขายอะไร<i>.</i></h1>
+  <p class="sub">ปิดสวิตช์ = เมนูนั้นขึ้นว่าหมดวันนี้ · กดบันทึกแล้วรอสักครู่ให้เว็บอัปเดต</p>
+
+  <div id="setup" class="setup" hidden>
+    <b>ตั้งค่าครั้งแรก</b>
+    <p>ต้องใส่ GitHub token หนึ่งครั้ง เพื่อให้หน้านี้แก้ไฟล์ในรีโปให้ได้<br>
+      สร้างที่ Settings → Developer settings → Personal access tokens →
+      <b>Fine-grained tokens</b> เลือกเฉพาะรีโปนี้ สิทธิ์ <code>Contents: Read and write</code></p>
+    <input id="tok" type="password" placeholder="github_pat_..." autocomplete="off">
+    <input id="repo" placeholder="ชื่อผู้ใช้/ชื่อรีโป เช่น suluck/deskclub-menu" autocomplete="off">
+    <button class="cta" style="margin-top:12px" id="save-cfg">บันทึกการตั้งค่า</button>
+  </div>
+
+  <div id="app" hidden>
+    <p class="label">ข้อความประกาศบนสุดของเมนู</p>
+    <textarea id="note" placeholder="เช่น วันนี้รับถึง 11:00 · ทำได้ประมาณ 20 แก้ว"></textarea>
+
+    <p class="label">มัทฉะ</p>       <div id="g-matcha"></div>
+    <p class="label">วิธีทำมัทฉะ</p>  <div id="g-styles"></div>
+    <p class="label">นมของ Cold Whisk</p><div id="g-milks"></div>
+    <p class="label">กาแฟ ชา โกโก้</p><div id="g-other"></div>
+
+    <div id="msg" class="msg"></div>
+  </div>
+</div>
+
+<div class="bar" id="bar" hidden>
+  <div class="bar-in">
+    <button class="cta ghost" id="all-on">เปิดหมด</button>
+    <button class="cta" id="save">บันทึก</button>
+  </div>
+</div>
+
+<script>
+const PATH = "availability.json";
+const BRANCH = "main";
+
+const GROUPS = {
+  matcha: { list:"items", el:"g-matcha", rows:[
+    ["mydesk","My Desk","เบลนด์ของร้าน"],
+    ["mini","Mini Plus","นุ่ม ขมน้อย"],
+    ["m3","M3","ceremonial"],
+    ["isuzu","Isuzu","ceremonial"]
+  ]},
+  styles: { list:"styles", el:"g-styles", rows:[
+    ["clear","Clear","ไม่ใส่นม"],
+    ["coco","Coconut","น้ำมะพร้าวสด"],
+    ["whisk","Cold Whisk","ตีกับนม"],
+    ["cloud","Coco Cloud","โฟมมัทฉะ"]
+  ]},
+  milks: { list:"milks", el:"g-milks", rows:[
+    ["fresh","Fresh milk",""],
+    ["lactose","Lactose free",""],
+    ["oat","Oat milk",""]
+  ]},
+  other: { list:"items", el:"g-other", rows:[
+    ["cb-black","Cold Brew Black",""],
+    ["cb-latte","Cold Brew Latte",""],
+    ["cb-coco","Coconut Coffee",""],
+    ["t-earl","Earl Grey",""],
+    ["t-eb","English Breakfast",""],
+    ["t-thai","Thai Tea",""],
+    ["cocoa","Dark Cocoa",""]
+  ]}
+};
+
+const $ = s => document.querySelector(s);
+let cfg = { token:"", repo:"" };
+let sha = null;                       // sha ของไฟล์ปัจจุบัน ต้องส่งกลับตอน commit
+let state = { note:"", items:[], styles:[], milks:[] };
+
+// ---------- config ----------
+function loadCfg(){
+  try{
+    cfg.token = localStorage.getItem("dc_token") || "";
+    cfg.repo  = localStorage.getItem("dc_repo")  || "";
+  }catch(e){}
+  return cfg.token && cfg.repo;
+}
+$("#save-cfg").onclick = ()=>{
+  cfg.token = $("#tok").value.trim();
+  cfg.repo  = $("#repo").value.trim().replace(/^https?:\/\/github\.com\//,"").replace(/\/$/,"");
+  if(!cfg.token || !cfg.repo) return show("กรอกให้ครบทั้งสองช่อง","err");
+  try{
+    localStorage.setItem("dc_token", cfg.token);
+    localStorage.setItem("dc_repo", cfg.repo);
+  }catch(e){}
+  boot();
+};
+
+// ---------- GitHub ----------
+const api = p => `https://api.github.com/repos/${cfg.repo}/contents/${p}`;
+const headers = () => ({
+  "Authorization": `Bearer ${cfg.token}`,
+  "Accept": "application/vnd.github+json"
+});
+
+async function load(){
+  const res = await fetch(`${api(PATH)}?ref=${BRANCH}&t=${Date.now()}`, { headers: headers() });
+  if(res.status === 404){ sha = null; return; }          // ยังไม่มีไฟล์ เดี๋ยวสร้างให้
+  if(!res.ok) throw new Error(`อ่านไฟล์ไม่ได้ (${res.status})`);
+  const data = await res.json();
+  sha = data.sha;
+  const json = JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g,"")))));
+  state = Object.assign({ note:"", items:[], styles:[], milks:[] }, json);
+}
+
+async function save(){
+  const body = JSON.stringify(state, null, 2) + "\n";
+  const content = btoa(unescape(encodeURIComponent(body)));
+  const res = await fetch(api(PATH), {
+    method:"PUT", headers: headers(),
+    body: JSON.stringify({
+      message: `เมนูวันที่ ${new Date().toLocaleDateString("th-TH")}`,
+      content, branch: BRANCH, ...(sha ? { sha } : {})
+    })
+  });
+  if(!res.ok) throw new Error(`บันทึกไม่ได้ (${res.status})`);
+  sha = (await res.json()).content.sha;                   // เก็บ sha ใหม่ กดซ้ำได้เลย
+}
+
+// ---------- UI ----------
+function render(){
+  $("#note").value = state.note || "";
+  for(const g of Object.values(GROUPS)){
+    const box = $("#" + g.el); box.innerHTML = "";
+    g.rows.forEach(([id,name,desc])=>{
+      const on = !state[g.list].includes(id);
+      const row = document.createElement("div");
+      row.className = "row" + (on ? "" : " off");
+      row.innerHTML = `<div class="n"><b>${name}</b>${desc?`<span>${desc}</span>`:""}</div>
+                       <div class="sw${on?" on":""}"><i></i></div>`;
+      row.onclick = ()=>{
+        const arr = state[g.list];
+        const i = arr.indexOf(id);
+        if(i >= 0) arr.splice(i,1); else arr.push(id);
+        render();
+      };
+      box.appendChild(row);
+    });
+  }
+}
+
+function show(text, kind){
+  const m = $("#msg");
+  m.className = "msg " + kind;
+  m.textContent = text;
+}
+
+$("#note").oninput = e => state.note = e.target.value;
+
+$("#all-on").onclick = ()=>{
+  state.items = []; state.styles = []; state.milks = [];
+  render(); show("เปิดหมดแล้ว — อย่าลืมกดบันทึก","ok");
+};
+
+$("#save").onclick = async ()=>{
+  $("#save").disabled = true;
+  $("#save").textContent = "กำลังบันทึก...";
+  try{
+    await save();
+    show("บันทึกแล้ว · เมนูจะอัปเดตใน 1–2 นาที","ok");
+  }catch(e){
+    show(e.message + " — ถ้าเป็น 401 แปลว่า token หมดอายุหรือผิด", "err");
+  }
+  $("#save").disabled = false;
+  $("#save").textContent = "บันทึก";
+};
+
+// ---------- boot ----------
+async function boot(){
+  if(!loadCfg()){ $("#setup").hidden = false; return; }
+  $("#setup").hidden = true;
+  try{
+    await load();
+    $("#app").hidden = false;
+    $("#bar").hidden = false;
+    render();
+  }catch(e){
+    $("#setup").hidden = false;
+    show(e.message, "err");
+  }
+}
+boot();
+</script>
+</body>
+</html>
