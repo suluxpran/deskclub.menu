@@ -1,5 +1,5 @@
 {
-  "note": "สวัสดีคืนวันพฤหัสบดี รับออเอร์ของวันศุกร์ถึง 2 ทุ่มนะครับ 😍",
+  "note": "รับออร์เดอร์ของวันศุกร์ ถึง 2 ทุ่มนะครับ 😍✨",
   "items": [
     "cb-black",
     "cb-latte",
@@ -8,8 +8,15 @@
     "t-eb",
     "t-thai",
     "cocoa",
-    "isuzu"
+    "isuzu",
+    "mydesk",
+    "mini"
   ],
-  "styles": [],
-  "milks": []
+  "styles": [
+    "coco",
+    "cloud"
+  ],
+  "milks": [
+    "oat"
+  ]
 }
