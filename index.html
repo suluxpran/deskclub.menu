@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#182A4E">
-<title>desk club — Menu</title>
+<title>deskclub — Menu</title>
+<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Noto+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
@@ -144,6 +145,11 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
   gap:2px;min-width:0;text-align:center
 }
 .opt.wide{grid-column:1/-1}
+/* นมอยู่แถวเดียว 3 ช่องเท่ากัน */
+#sheet-milks{grid-template-columns:repeat(3,1fr)}
+#sheet-milks .opt{padding:10px 4px;min-height:62px}
+#sheet-milks .opt b{font-size:12.5px}
+#sheet-milks .opt small{font-size:9.5px}
 .opt b{font-family:"Archivo",sans-serif;font-weight:700;font-size:14px;line-height:1.15}
 .opt small{font-size:10px;color:var(--ink-mute);letter-spacing:.04em;white-space:nowrap}
 .opt[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
@@ -229,7 +235,7 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
     <section class="sec" id="panel-matcha" role="tabpanel" aria-labelledby="tab-matcha">
       <div class="sec-head">
         <h2 class="en">Matcha</h2>
-        <span class="en">ONE SIZE · 14 OZ</span>
+        <span class="en">ONE SIZE · 150 ML</span>
       </div>
       <p style="margin:-6px 0 14px;font-size:12.5px;color:var(--ink-mute)">เลือกใบชาก่อน แล้วเลือกว่าจะให้ทำเป็นเมนูไหน — ราคาขึ้นกับแบบที่ทำ</p>
       <div id="list-matcha"></div>
@@ -346,14 +352,18 @@ const STYLES = [
    note:"น้ำมะพร้าวสด ราดด้วยมัทฉะตีเข้ม · ไม่ใช่นมมะพร้าว"},
   {id:"whisk", name:"Cold Whisk", sub:"ตีกับนมโดยตรง", kind:"whisk",
    note:"ตีมัทฉะกับนมเย็นโดยตรง · เนื้อครีมมี่ ขมน้อย",
-   milks:[{id:"fresh",name:"Fresh milk",delta:20},{id:"oat",name:"Oat milk",delta:30}]},
+   milks:[
+     {id:"fresh",   name:"Fresh milk",   delta:20},
+     {id:"lactose", name:"Lactose free", delta:30},   // <<< ตรวจราคาตรงนี้
+     {id:"oat",     name:"Oat milk",     delta:30}
+   ]},
   {id:"cloud", name:"Coco Cloud", sub:"โฟมมัทฉะ · สูตรเฉพาะ", delta:50, kind:"cloud",
    note:"น้ำมะพร้าวสด ราดด้วยมัทฉะที่ตีจนเป็นโฟมนุ่ม · คนก่อนดื่ม"}
 ];
 
 const MATCHA = [
-  {id:"mini", name:"Mini Plus", base:80, desc:"นุ่ม ขมน้อย · เหมาะกับคนเริ่มดื่มมัทฉะ"},
   {id:"mydesk", name:"My Desk", base:70, tag:"OUR BLEND", blend:true, desc:"เบลนด์ของร้าน · สดชื่น กลมกล่อม เข้ากับนม"},
+  {id:"mini", name:"Mini Plus", base:80, desc:"นุ่ม ขมน้อย · เหมาะกับคนเริ่มดื่มมัทฉะ"},
   {id:"m3", name:"M3", base:90, tag:"CEREMONIAL", desc:"เก็บรอบแรก · หวานธรรมชาติ เนื้อแน่น อูมามิ"},
   {id:"isuzu", name:"Isuzu", base:110, tag:"CEREMONIAL", desc:"ซิงเกิลออริจิน · แนะนำแบบ Clear เพื่อชิมรสจริง"}
 ];
@@ -454,7 +464,7 @@ function openItem(ctx){
           optIdx: isM ? -1 : ((d.opts&&d.opts.length)?0:-1) };
 
   $("#sheet-title").textContent = d.name;
-  $("#sheet-desc").textContent = d.desc + (isM ? " · 14 oz" : " · 16 oz");
+  $("#sheet-desc").textContent = d.desc + (isM ? " · 150 ml" : " · 16 oz");
   $("#sheet-note").value = "";
   $("#opt-label").textContent = isM ? "ทำเป็นเมนูไหน · STYLE" : (d.optLabel||"OPTION");
   $("#opt-block").style.display = (isM || cur.opts.length) ? "" : "none";
@@ -548,7 +558,7 @@ function paint(){
   const lab = curLabel();
   $("#pv-name").textContent = cur.d.name + (lab ? " · " + lab : "");
   $("#pv-style").textContent = cur.isM ? curStyle().note : "";
-  $("#pv-sweet").textContent = `หวาน ${sw.pct} (${sw.g}g) · ${cur.isM?"14":"16"} oz`;
+  $("#pv-sweet").textContent = `หวาน ${sw.pct} (${sw.g}g) · ${cur.isM?"150 ml":"16 oz"}`;
   $("#pv-price").textContent = curPrice()*cur.qty;
   $("#q-num").textContent = cur.qty;
   $("#add-btn").textContent = `เพิ่มลงออเดอร์ · ${curPrice()*cur.qty}฿`;
@@ -649,9 +659,65 @@ async function copyText(t){
   }
 }
 
+/* ---------------- LIFF: ส่งเข้าแชทตรงๆ ---------------- */
+const LIFF_ID  = "2011293067-MIBtWS0U";   // <<< ใส่ LIFF ID จาก LINE Developers Console
+const API_BASE = "";                       // เว้นว่างไว้จนกว่าจะมี backend (เฟส 3)
+
+let liffReady = false;
+
+async function initLiff(){
+  if(typeof liff === "undefined") return;
+  try{
+    await liff.init({ liffId: LIFF_ID });
+    const ctx = liff.getContext();
+    // ส่งข้อความเข้าแชทได้เฉพาะตอนเปิดจากในห้องแชท ซึ่ง rich menu เข้าเงื่อนไขนี้
+    liffReady = liff.isInClient() && ["utou","room","group"].includes(ctx?.type);
+  }catch(e){
+    console.warn("LIFF init failed — fallback to copy", e);
+  }
+  $("#copy-btn").textContent = liffReady ? "ส่งออเดอร์เข้าแชท" : "คัดลอกออเดอร์";
+  $(".hint").textContent = liffReady
+    ? "กดแล้วออเดอร์จะถูกส่งเข้าแชทให้อัตโนมัติ"
+    : "คัดลอกแล้วกลับไปที่แชท แล้ววาง (แตะค้าง → วาง) ส่งได้เลย";
+}
+
+// ลงทะเบียนออเดอร์กับ backend — ใช้เมื่อมี API_BASE แล้วเท่านั้น
+async function registerOrder(){
+  if(!API_BASE) return null;
+  const res = await fetch(`${API_BASE}/api/orders`, {
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({
+      items: cart.map(i=>({name:i.name,opt:i.opt,sweet:i.sweet,note:i.note,unit:i.unit,qty:i.qty})),
+      customerName: $("#order-name").value.trim() || null
+    })
+  });
+  if(!res.ok) throw new Error("order failed");
+  return res.json();
+}
+
 $("#copy-btn").onclick = async ()=>{
-  const t = orderText();
-  const ok = await copyText(t);
+  if(!cart.length) return;
+
+  let text = orderText();
+  try{
+    const reg = await registerOrder();
+    if(reg) text += `\n\n#${reg.code}`;
+  }catch(e){
+    console.warn("register failed — ส่งต่อโดยไม่มี code", e);
+  }
+
+  if(liffReady){
+    try{
+      await liff.sendMessages([{ type:"text", text }]);
+      toast("ส่งออเดอร์เข้าแชทแล้ว");
+      setTimeout(()=>liff.closeWindow(), 700);
+      return;
+    }catch(e){
+      toast("ส่งไม่สำเร็จ ลองคัดลอกแทน");
+    }
+  }
+
+  const ok = await copyText(text);
   toast(ok ? "คัดลอกแล้ว — กลับไปวางในแชทได้เลย" : "คัดลอกไม่สำเร็จ ลองแตะค้างที่ข้อความเพื่อคัดลอก");
   if(ok){ setTimeout(()=>hide($("#osheet")), 900); }
 };
@@ -699,7 +765,7 @@ function toast(msg){
   toastT = setTimeout(()=>t.classList.remove("on"), 2200);
 }
 
-renderMatcha(); renderOther(); renderBar();
+renderMatcha(); renderOther(); renderBar(); initLiff();
 </script>
 </body>
 </html>
