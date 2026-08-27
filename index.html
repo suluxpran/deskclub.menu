@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#182A4E">
+<title>desk club — Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Noto+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#182A4E;
+  --navy-soft:#2C405F;
+  --cream:#F5F2EA;
+  --cream-2:#EFEADF;
+  --orange:#EE6A2C;
+  --matcha:#D8E3B4;
+  --matcha-deep:#A8BF66;
+  --ink-mute:#6E7A90;
+  --line:#DFD9CB;
+  --shadow:0 10px 30px rgba(24,42,78,.16);
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--cream);
+  color:var(--navy);
+  font-family:"Noto Sans Thai","Archivo",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:15px;line-height:1.45;
+  padding-bottom:calc(96px + var(--safe-b));
+  overflow-x:hidden;
+}
+.wrap{max-width:520px;margin:0 auto;position:relative}
+.en{font-family:"Archivo","Noto Sans Thai",sans-serif}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--orange);outline-offset:2px;border-radius:6px}
+
+/* ---------- blob backdrop ---------- */
+.blobs{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5}
+.blobs svg{position:absolute;fill:#D6D2C6}
+.b1{width:260px;top:-40px;right:-70px}
+.b2{width:320px;top:44%;left:-130px}
+.b3{width:240px;bottom:6%;right:-90px}
+.wrap>*{position:relative;z-index:1}
+
+/* ---------- header ---------- */
+.top{padding:22px 20px 0}
+.mark{display:flex;align-items:center;gap:8px}
+.sq{width:11px;height:11px;background:var(--orange);display:block}
+.mark b{font-family:"Archivo",sans-serif;font-weight:800;font-size:20px;letter-spacing:-.03em}
+.mark b i{color:var(--orange);font-style:normal}
+.hero{padding:14px 20px 4px}
+.hero h1{
+  font-family:"Archivo",sans-serif;font-weight:800;letter-spacing:-.045em;
+  font-size:clamp(52px,20vw,86px);line-height:.82;margin:0;
+}
+.hero h1 span{color:var(--orange)}
+.hero p{margin:10px 0 0;color:var(--ink-mute);font-size:13px;letter-spacing:.04em}
+
+/* ---------- tabs ---------- */
+.tabs{position:sticky;top:0;z-index:20;background:var(--cream);padding:12px 20px 10px;margin-top:14px}
+.tabs:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--line)}
+.seg{display:flex;gap:6px;background:var(--cream-2);padding:4px;border-radius:999px}
+.seg button{
+  flex:1;padding:9px 6px;border-radius:999px;font-weight:700;font-size:13px;
+  font-family:"Archivo",sans-serif;letter-spacing:.02em;color:var(--ink-mute);transition:.18s
+}
+.seg button[aria-selected="true"]{background:var(--navy);color:#fff}
+
+/* ---------- sections ---------- */
+.sec{padding:18px 20px 4px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px}
+.sec-head h2{font-family:"Archivo",sans-serif;font-weight:800;font-size:19px;letter-spacing:-.01em;margin:0}
+.sec-head span{font-size:11px;letter-spacing:.12em;color:var(--ink-mute);font-family:"Archivo",sans-serif}
+.group-label{
+  font-family:"Archivo",sans-serif;font-size:11px;letter-spacing:.16em;color:var(--ink-mute);
+  margin:22px 0 10px;display:flex;align-items:center;gap:10px
+}
+.group-label:after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* ---------- item card ---------- */
+.card{
+  width:100%;display:flex;align-items:center;gap:14px;text-align:left;
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:14px;margin-bottom:10px;transition:transform .12s ease, box-shadow .12s ease
+}
+.card:active{transform:scale(.985);box-shadow:var(--shadow)}
+.card.blend{background:var(--matcha);border-color:#C9D89F}
+.card .txt{flex:1;min-width:0}
+.card h3{margin:0;font-family:"Archivo",sans-serif;font-weight:800;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.tag{font-size:9px;letter-spacing:.1em;padding:3px 6px;border:1px solid var(--navy);border-radius:4px;font-family:"Archivo",sans-serif;font-weight:700}
+.tag.fill{background:var(--orange);border-color:var(--orange);color:#fff}
+.card p{margin:3px 0 0;font-size:12.5px;color:var(--ink-mute)}
+.price{font-family:"Archivo",sans-serif;font-weight:800;font-size:15px;white-space:nowrap;text-align:right}
+.price small{display:block;font-weight:500;font-size:10px;letter-spacing:.08em;color:var(--ink-mute)}
+.thumb{width:52px;height:52px;flex:none}
+
+/* ---------- footnote ---------- */
+.note{
+  margin:22px 20px 0;background:var(--navy);color:#fff;border-radius:16px;padding:16px 18px;
+}
+.note b{font-family:"Archivo",sans-serif;font-size:14px;letter-spacing:.02em}
+.note p{margin:6px 0 0;font-size:12.5px;color:#B9C4D6}
+.foot{padding:26px 20px 10px;text-align:center;color:var(--ink-mute);font-size:11.5px;letter-spacing:.06em}
+
+/* ---------- bottom bar ---------- */
+.bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;
+  padding:10px 16px calc(10px + var(--safe-b));
+  background:linear-gradient(to top,var(--cream) 62%,rgba(245,242,234,0));
+}
+.bar-in{max-width:520px;margin:0 auto;display:flex;gap:10px;align-items:center;
+  background:var(--navy);border-radius:999px;padding:8px 8px 8px 18px;box-shadow:var(--shadow)}
+.bar-in .sum{flex:1;color:#fff;min-width:0}
+.bar-in .sum b{font-family:"Archivo",sans-serif;font-size:15px;display:block}
+.bar-in .sum span{font-size:11px;color:#AEBBD1}
+.bar-in .go{background:var(--orange);color:#fff;font-weight:700;padding:11px 18px;border-radius:999px;font-size:14px}
+.bar[hidden]{display:none}
+
+/* ---------- sheet ---------- */
+.scrim{position:fixed;inset:0;background:rgba(24,42,78,.45);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;max-height:92vh;
+  background:var(--cream);border-radius:22px 22px 0 0;
+  transform:translateY(101%);transition:transform .26s cubic-bezier(.32,.72,0,1);
+  display:flex;flex-direction:column;box-shadow:0 -8px 40px rgba(24,42,78,.25)
+}
+.sheet.on{transform:translateY(0)}
+.sheet-in{max-width:520px;margin:0 auto;width:100%;display:flex;flex-direction:column;min-height:0}
+.grab{width:38px;height:4px;background:var(--line);border-radius:9px;margin:9px auto 0;flex:none}
+.sheet-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px 20px 14px}
+.sheet-foot{padding:12px 20px calc(16px + var(--safe-b));border-top:1px solid var(--line);background:var(--cream);flex:none}
+
+.sheet h2{font-family:"Archivo",sans-serif;font-weight:800;font-size:22px;letter-spacing:-.02em;margin:12px 0 2px}
+.sheet .desc{color:var(--ink-mute);font-size:13px;margin:0 0 14px}
+.label{font-family:"Archivo",sans-serif;font-size:11px;letter-spacing:.14em;color:var(--ink-mute);margin:18px 0 8px}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.opt{
+  border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 8px;
+  min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;min-width:0;text-align:center
+}
+.opt.wide{grid-column:1/-1}
+.opt b{font-family:"Archivo",sans-serif;font-weight:700;font-size:14px;line-height:1.15}
+.opt small{font-size:10px;color:var(--ink-mute);letter-spacing:.04em;white-space:nowrap}
+.opt[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.opt[aria-pressed="true"] small{color:#AEBBD1}
+
+/* sweetness */
+.sweet{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.sweet button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 2px;text-align:center;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.sweet button b{display:block;font-family:"Archivo",sans-serif;font-size:15px}
+.sweet button small{font-size:10px;color:var(--ink-mute)}
+.sweet button[aria-pressed="true"]{background:var(--matcha);border-color:var(--matcha-deep)}
+.sweet button[aria-pressed="true"] small{color:#5C6B3A}
+
+/* cup preview */
+.preview{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-top:4px}
+.preview .meta{flex:1;min-width:0}
+.preview .meta b{font-family:"Archivo",sans-serif;font-size:14px;display:block}
+.preview .meta span{font-size:12px;color:var(--ink-mute);display:block}
+.preview .meta #pv-style{color:var(--navy);font-size:11.5px;margin:2px 0 1px}
+.cup{width:74px;height:96px;flex:none}
+.cup .liquid{transition:fill .25s ease}
+
+.qty{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:0 6px;height:54px;flex:none}
+.qty button{width:38px;height:38px;border-radius:50%;background:var(--cream-2);font-size:19px;font-family:"Archivo",sans-serif;line-height:1;display:flex;align-items:center;justify-content:center}
+.qty b{font-family:"Archivo",sans-serif;font-size:17px;min-width:22px;text-align:center}
+.row{display:flex;gap:12px;align-items:center}
+.cta{flex:1;background:var(--navy);color:#fff;border-radius:999px;height:54px;padding:0 16px;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;text-align:center}
+.cta.orange{background:var(--orange)}
+.cta.block{width:100%}
+.cta[disabled]{opacity:.4}
+
+/* order list */
+.oitem{display:flex;gap:12px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--line)}
+.oitem .t{flex:1;min-width:0}
+.oitem .t b{font-family:"Archivo",sans-serif;font-size:14.5px}
+.oitem .t p{margin:2px 0 0;font-size:12px;color:var(--ink-mute)}
+.oitem .p{font-family:"Archivo",sans-serif;font-weight:700;font-size:14px}
+.mini{display:flex;align-items:center;gap:10px;margin-top:8px}
+.mini button{width:28px;height:28px;border-radius:50%;background:var(--cream-2);font-family:"Archivo",sans-serif;line-height:1}
+.mini b{font-size:14px;font-family:"Archivo",sans-serif}
+.total{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0 4px}
+.total b{font-family:"Archivo",sans-serif;font-size:24px;letter-spacing:-.02em}
+.empty{text-align:center;padding:34px 10px;color:var(--ink-mute);font-size:13.5px}
+.field{width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 14px;font:inherit;font-size:14px;color:var(--navy);margin-top:8px}
+.field::placeholder{color:#A6AFC0}
+.hint{font-size:12px;color:var(--ink-mute);margin:10px 0 0;text-align:center}
+
+.toast{
+  position:fixed;left:50%;bottom:calc(110px + var(--safe-b));transform:translate(-50%,14px);
+  background:var(--navy);color:#fff;padding:12px 18px;border-radius:999px;font-size:13.5px;font-weight:500;
+  z-index:80;opacity:0;pointer-events:none;transition:.22s;box-shadow:var(--shadow);white-space:nowrap
+}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="blobs" aria-hidden="true">
+  <svg class="b1" viewBox="0 0 200 200"><path d="M50 20c30-18 62 4 70 32s34 30 30 60-40 34-66 46-58 6-70-20 4-46 6-70S20 38 50 20z"/></svg>
+  <svg class="b2" viewBox="0 0 200 200"><path d="M40 46c26-30 70-34 92-8s10 56 22 78-16 52-46 48-56-26-72-48-22-40 4-70z"/></svg>
+  <svg class="b3" viewBox="0 0 200 200"><path d="M60 14c36-8 64 22 74 52s-6 62-34 76-64 4-82-22 2-52 8-76 6-24 34-30z"/></svg>
+</div>
+
+<div class="wrap">
+  <header class="top">
+    <div class="mark"><span class="sq"></span><b>desk club<i>.</i></b></div>
+  </header>
+
+  <div class="hero">
+    <h1 class="en">MENU<span>.</span></h1>
+    <p class="en">MATCHA TO KEEP YOU WORKING · แตะเพื่อเลือก แล้วก๊อปส่งในแชท</p>
+  </div>
+
+  <nav class="tabs" role="tablist" aria-label="หมวดเมนู">
+    <div class="seg">
+      <button role="tab" id="tab-matcha" aria-selected="true" aria-controls="panel-matcha" class="en">MATCHA</button>
+      <button role="tab" id="tab-other" aria-selected="false" aria-controls="panel-other" class="en">COFFEE &amp; TEA</button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="sec" id="panel-matcha" role="tabpanel" aria-labelledby="tab-matcha">
+      <div class="sec-head">
+        <h2 class="en">Matcha</h2>
+        <span class="en">ONE SIZE · 14 OZ</span>
+      </div>
+      <p style="margin:-6px 0 14px;font-size:12.5px;color:var(--ink-mute)">เลือกใบชาก่อน แล้วเลือกว่าจะให้ทำเป็นเมนูไหน — ราคาขึ้นกับแบบที่ทำ</p>
+      <div id="list-matcha"></div>
+    </section>
+
+    <section class="sec" id="panel-other" role="tabpanel" aria-labelledby="tab-other" hidden>
+      <div class="sec-head">
+        <h2 class="en">Coffee &amp; Tea</h2>
+        <span class="en">ONE SIZE · 16 OZ</span>
+      </div>
+      <div id="list-other"></div>
+    </section>
+
+    <div class="note">
+      <b class="en">14 cups = 1 free</b>
+      <p>สะสมแสตมป์ผ่าน LINE — 1 แก้ว 1 ดวง ครบ 14 ดวงรับฟรี 1 แก้ว</p>
+    </div>
+    <p class="foot en">MADE SLOWLY. ENJOY QUIETLY.<br>@deskclub · GRAB · LINE MAN</p>
+  </main>
+</div>
+
+<div class="bar" id="bar" hidden>
+  <div class="bar-in">
+    <div class="sum"><b id="bar-count">0 แก้ว</b><span id="bar-items">—</span></div>
+    <button class="go" id="bar-go">ดูออเดอร์ · <span id="bar-total">0</span>฿</button>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<!-- item sheet -->
+<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <div class="sheet-in">
+    <div class="grab"></div>
+    <div class="sheet-body">
+      <h2 id="sheet-title" class="en"></h2>
+      <p class="desc" id="sheet-desc"></p>
+
+      <div class="preview">
+        <svg class="cup" viewBox="0 0 74 96" aria-hidden="true">
+          <rect id="pv-straw" x="44" y="4" width="5" height="46" rx="2.5" transform="rotate(9 46 27)" fill="#182A4E"/>
+          <path d="M12 26h50l-6 62a6 6 0 0 1-6 5H24a6 6 0 0 1-6-5z" fill="#EDEAE1"/>
+          <path id="pv-liquid" class="liquid" d="M15 44h44l-4 44a6 6 0 0 1-6 5H25a6 6 0 0 1-6-5z" fill="#A8BF66"/>
+          <path id="pv-cap" d="M15.4 42h43.2l-1 15H16.4z" fill="#CFE0A4" opacity="0"/>
+          <path id="pv-cloudbase" d="M18.6 64h36.8l-1.4 24a6 6 0 0 1-6 5H26a6 6 0 0 1-6-5z" fill="#F1EFE6" opacity="0"/>
+          <rect x="10" y="22" width="54" height="7" rx="3.5" fill="#D9D5CA"/>
+          <rect x="20" y="56" width="34" height="17" rx="2" fill="#182A4E"/>
+          <text x="37" y="64" text-anchor="middle" font-family="Archivo,sans-serif" font-size="6" font-weight="800" fill="#fff">desk</text>
+          <text x="37" y="70" text-anchor="middle" font-family="Archivo,sans-serif" font-size="6" font-weight="800" fill="#fff">club</text>
+        </svg>
+        <div class="meta">
+          <b id="pv-name" class="en">—</b>
+          <span id="pv-style">—</span>
+          <span id="pv-sweet">—</span>
+        </div>
+        <div class="price"><span id="pv-price" class="en">0</span><small class="en">BAHT</small></div>
+      </div>
+
+      <div id="opt-block">
+        <p class="label" id="opt-label">STYLE</p>
+        <div class="opts" id="sheet-opts"></div>
+      </div>
+
+      <div id="milk-block">
+        <p class="label">นม · MILK</p>
+        <div class="opts" id="sheet-milks"></div>
+      </div>
+
+      <p class="label">ความหวาน · SWEETNESS</p>
+      <div class="sweet" id="sheet-sweet"></div>
+
+      <p class="label">โน้ตถึงร้าน (ไม่บังคับ)</p>
+      <input class="field" id="sheet-note" placeholder="เช่น น้ำแข็งน้อย, ไม่ใส่หลอด" autocomplete="off">
+    </div>
+    <div class="sheet-foot">
+      <div class="row">
+        <div class="qty">
+          <button id="q-minus" aria-label="ลดจำนวน">−</button>
+          <b id="q-num">1</b>
+          <button id="q-plus" aria-label="เพิ่มจำนวน">+</button>
+        </div>
+        <button class="cta" id="add-btn">เพิ่มลงออเดอร์</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- order sheet -->
+<section class="sheet" id="osheet" role="dialog" aria-modal="true" aria-labelledby="osheet-title">
+  <div class="sheet-in">
+    <div class="grab"></div>
+    <div class="sheet-body">
+      <h2 id="osheet-title" class="en">Your order<span style="color:var(--orange)">.</span></h2>
+      <p class="desc">ตรวจดูอีกครั้ง แล้วกดคัดลอกไปวางในแชท LINE ได้เลย</p>
+      <div id="order-list"></div>
+      <div class="total"><span>รวมทั้งหมด</span><b class="en"><span id="order-total">0</span> ฿</b></div>
+      <input class="field" id="order-name" placeholder="ชื่อผู้สั่ง (ไม่บังคับ)" autocomplete="off">
+    </div>
+    <div class="sheet-foot">
+      <button class="cta orange block" id="copy-btn">คัดลอกออเดอร์</button>
+      <p class="hint">คัดลอกแล้วกลับไปที่แชท แล้ววาง (แตะค้าง → วาง) ส่งได้เลย</p>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------------- data ---------------- */
+const STYLES = [
+  {id:"clear", name:"Clear", sub:"ไม่ใส่นม", delta:0, kind:"clear",
+   note:"ตีกับน้ำล้วน · ชิมรสใบชาตรงๆ"},
+  {id:"coco", name:"Coconut", sub:"น้ำมะพร้าวสด · ไม่มีนม", delta:10, kind:"coco",
+   note:"น้ำมะพร้าวสด ราดด้วยมัทฉะตีเข้ม · ไม่ใช่นมมะพร้าว"},
+  {id:"whisk", name:"Cold Whisk", sub:"ตีกับนมโดยตรง", kind:"whisk",
+   note:"ตีมัทฉะกับนมเย็นโดยตรง · เนื้อครีมมี่ ขมน้อย",
+   milks:[{id:"fresh",name:"Fresh milk",delta:20},{id:"oat",name:"Oat milk",delta:30}]},
+  {id:"cloud", name:"Coco Cloud", sub:"โฟมมัทฉะ · สูตรเฉพาะ", delta:50, kind:"cloud",
+   note:"น้ำมะพร้าวสด ราดด้วยมัทฉะที่ตีจนเป็นโฟมนุ่ม · คนก่อนดื่ม"}
+];
+
+const MATCHA = [
+  {id:"mini", name:"Mini Plus", base:80, desc:"นุ่ม ขมน้อย · เหมาะกับคนเริ่มดื่มมัทฉะ"},
+  {id:"mydesk", name:"My Desk", base:70, tag:"OUR BLEND", blend:true, desc:"เบลนด์ของร้าน · สดชื่น กลมกล่อม เข้ากับนม"},
+  {id:"m3", name:"M3", base:90, tag:"CEREMONIAL", desc:"เก็บรอบแรก · หวานธรรมชาติ เนื้อแน่น อูมามิ"},
+  {id:"isuzu", name:"Isuzu", base:110, tag:"CEREMONIAL", desc:"ซิงเกิลออริจิน · แนะนำแบบ Clear เพื่อชิมรสจริง"}
+];
+
+const OTHER = [
+  {group:"COLD BREW · SLOW STEEP", items:[
+    {id:"cb-black", name:"Black", base:70, desc:"กาแฟกับน้ำเท่านั้น สะอาด คมชัด", color:"#3A2A20"},
+    {id:"cb-latte", name:"Latte", base:85, desc:"โคลด์บรูว์กับนม", color:"#7A5334",
+     optLabel:"MILK", opts:[{id:"fresh",name:"Fresh milk",sub:"+0",add:0,color:"#8A6242"},{id:"oat",name:"Oat milk",sub:"+10",add:10,color:"#9A7150"}]},
+    {id:"cb-coco", name:"Coconut Coffee", base:90, desc:"น้ำมะพร้าวสด ราดด้วยโคลด์บรูว์ · ไม่มีนม", color:"#A57F52"}
+  ]},
+  {group:"TEA · HOT OR ICED", items:[
+    {id:"t-earl", name:"Earl Grey", base:70, desc:"กลิ่นเบอร์กาม็อต", color:"#B8804A",
+     optLabel:"STYLE", opts:[{id:"clear",name:"Clear",sub:"ไม่ใส่นม",add:0,color:"#C08B4E"},{id:"milk",name:"With milk",sub:"+0",add:0,color:"#D2A472"}]},
+    {id:"t-eb", name:"English Breakfast", base:70, desc:"เข้ม มอลต์ชัด · เข้ากับนม", color:"#A9713F",
+     optLabel:"STYLE", opts:[{id:"clear",name:"Clear",sub:"ไม่ใส่นม",add:0,color:"#A9713F"},{id:"milk",name:"With milk",sub:"+0",add:0,color:"#C79A66"}]},
+    {id:"t-thai", name:"Thai Tea", base:75, desc:"ชาไทยที่ทุกคนรู้จัก", color:"#E08A3C"}
+  ]},
+  {group:"COCOA · NO CAFFEINE", items:[
+    {id:"cocoa", name:"Dark Cocoa", base:90, desc:"ดาร์กช็อกโกแลตแท้ ไม่ใช่ผงสำเร็จรูป · สูตรเดียว ไม่มีตัวเลือก", color:"#4A3226", highlight:true}
+  ]}
+];
+
+const SWEET = [
+  {g:0,pct:"0%"},{g:2,pct:"25%"},{g:4,pct:"50%"},{g:6,pct:"75%"},{g:8,pct:"100%"}
+];
+
+/* ---------------- helpers ---------------- */
+const $ = s => document.querySelector(s);
+const el = (t,c,h) => { const n=document.createElement(t); if(c) n.className=c; if(h!=null) n.innerHTML=h; return n; };
+const baht = n => n.toLocaleString("th-TH");
+
+let cart = [];
+let cur = null; // current sheet state
+
+/* ---------------- render menu ---------------- */
+function cupThumb(color, foam){
+  return `<svg class="thumb" viewBox="0 0 74 96" aria-hidden="true">
+    <rect x="44" y="6" width="5" height="42" rx="2.5" transform="rotate(9 46 27)" fill="#182A4E"/>
+    <path d="M12 26h50l-6 62a6 6 0 0 1-6 5H24a6 6 0 0 1-6-5z" fill="#EDEAE1"/>
+    <path d="M15 ${foam?46:40}h44l-4 ${foam?42:48}a6 6 0 0 1-6 5H25a6 6 0 0 1-6-5z" fill="${color}"/>
+    ${foam?'<path d="M14 32h46l-1.8 13H15.8z" fill="#F7F4EC"/>':''}
+    <rect x="10" y="22" width="54" height="7" rx="3.5" fill="#D9D5CA"/>
+    <rect x="22" y="58" width="30" height="15" rx="2" fill="#182A4E"/>
+  </svg>`;
+}
+
+function renderMatcha(){
+  const box = $("#list-matcha"); box.innerHTML="";
+  MATCHA.forEach(m=>{
+    const min = m.base;
+    const b = el("button","card"+(m.blend?" blend":""));
+    b.innerHTML = cupThumb("#B9CE84", false) +
+      `<div class="txt">
+         <h3 class="en">${m.name}${m.tag?`<span class="tag${m.blend?" fill":""}">${m.tag}</span>`:""}</h3>
+         <p>${m.desc}</p>
+       </div>
+       <div class="price"><span class="en">${min}+</span><small>เริ่มต้น</small></div>`;
+    b.onclick = ()=>openItem({type:"matcha",data:m});
+    box.appendChild(b);
+  });
+}
+
+function renderOther(){
+  const box = $("#list-other"); box.innerHTML="";
+  OTHER.forEach(g=>{
+    box.appendChild(el("p","group-label en",g.group));
+    g.items.forEach(it=>{
+      const b = el("button","card"+(it.highlight?" blend":""));
+      b.innerHTML = cupThumb(it.color,false) +
+        `<div class="txt"><h3 class="en">${it.name}</h3><p>${it.desc}</p></div>
+         <div class="price"><span class="en">${it.base}</span>${it.opts?'<small>เลือกนมได้</small>':''}</div>`;
+      b.onclick = ()=>openItem({type:"other",data:it});
+      box.appendChild(b);
+    });
+  });
+}
+
+/* ---------------- tabs ---------------- */
+function setTab(which){
+  const m = which==="matcha";
+  $("#tab-matcha").setAttribute("aria-selected",m);
+  $("#tab-other").setAttribute("aria-selected",!m);
+  $("#panel-matcha").hidden = !m;
+  $("#panel-other").hidden = m;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$("#tab-matcha").onclick = ()=>setTab("matcha");
+$("#tab-other").onclick = ()=>setTab("other");
+
+/* ---------------- item sheet ---------------- */
+function openItem(ctx){
+  const isM = ctx.type==="matcha", d = ctx.data;
+  cur = { isM, d, sweetIdx:2, qty:1,
+          styleIdx: isM ? 2 : 0,          // default: Cold Whisk
+          milkIdx: 0,                      // default: Fresh milk
+          opts: isM ? [] : (d.opts||[]).map(o=>({name:o.name,sub:o.sub,color:o.color,price:d.base+o.add})),
+          optIdx: isM ? -1 : ((d.opts&&d.opts.length)?0:-1) };
+
+  $("#sheet-title").textContent = d.name;
+  $("#sheet-desc").textContent = d.desc + (isM ? " · 14 oz" : " · 16 oz");
+  $("#sheet-note").value = "";
+  $("#opt-label").textContent = isM ? "ทำเป็นเมนูไหน · STYLE" : (d.optLabel||"OPTION");
+  $("#opt-block").style.display = (isM || cur.opts.length) ? "" : "none";
+
+  const ob = $("#sheet-opts"); ob.innerHTML="";
+  if(isM){
+    STYLES.forEach((st,i)=>{
+      const b = el("button","opt"); b.type="button";
+      b.innerHTML = `<b class="en">${st.name}</b><small>${st.sub} · ${stylePrice(st)}฿</small>`;
+      b.onclick = ()=>{ cur.styleIdx=i; paint(); };
+      ob.appendChild(b);
+    });
+  } else {
+    cur.opts.forEach((o,i)=>{
+      const b = el("button","opt"); b.type="button";
+      if(cur.opts.length%2===1 && i===cur.opts.length-1) b.classList.add("wide");
+      b.innerHTML = `<b class="en">${o.name}</b><small>${o.sub} · ${o.price}฿</small>`;
+      b.onclick = ()=>{ cur.optIdx=i; paint(); };
+      ob.appendChild(b);
+    });
+  }
+
+  const sb = $("#sheet-sweet"); sb.innerHTML="";
+  SWEET.forEach((sw,i)=>{
+    const b = el("button",""); b.type="button";
+    b.innerHTML = `<b class="en">${sw.g}g</b><small>${sw.pct}</small>`;
+    b.onclick = ()=>{ cur.sweetIdx=i; paint(); };
+    sb.appendChild(b);
+  });
+
+  paint();
+  show($("#sheet"));
+}
+
+function curStyle(){ return cur.isM ? STYLES[cur.styleIdx] : null; }
+function stylePrice(st){
+  return cur.d.base + (st.milks ? st.milks[0].delta : st.delta);
+}
+function curPrice(){
+  if(cur.isM){
+    const st = curStyle();
+    return cur.d.base + (st.milks ? st.milks[cur.milkIdx].delta : st.delta);
+  }
+  return cur.optIdx>=0 ? cur.opts[cur.optIdx].price : cur.d.base;
+}
+function curLabel(){
+  if(!cur.isM) return cur.optIdx>=0 ? cur.opts[cur.optIdx].name : "";
+  const st = curStyle();
+  return st.name + (st.milks ? " · " + st.milks[cur.milkIdx].name : "");
+}
+function curColor(){
+  if(!cur.isM) return (cur.optIdx>=0 ? cur.opts[cur.optIdx].color : cur.d.color) || "#A8BF66";
+  const k = curStyle().kind;
+  if(k==="clear") return "#8FB03F";
+  if(k==="coco")  return "#9BBB55";
+  if(k==="cloud") return "#A9C56B";
+  return cur.milkIdx===0 ? "#BCD183" : "#C6D592";
+}
+
+function renderMilks(){
+  const block = $("#milk-block"), box = $("#sheet-milks");
+  const st = cur.isM ? curStyle() : null;
+  if(!st || !st.milks){ block.style.display="none"; return; }
+  block.style.display="";
+  if(box.dataset.for !== st.id){
+    box.dataset.for = st.id; box.innerHTML="";
+    st.milks.forEach((m,i)=>{
+      const b = el("button","opt"); b.type="button";
+      b.innerHTML = `<b class="en">${m.name}</b><small>${cur.d.base+m.delta}฿</small>`;
+      b.onclick = ()=>{ cur.milkIdx=i; paint(); };
+      box.appendChild(b);
+    });
+  }
+  [...box.children].forEach((b,i)=>b.setAttribute("aria-pressed", i===cur.milkIdx));
+}
+
+function paint(){
+  [...$("#sheet-opts").children].forEach((b,i)=>
+    b.setAttribute("aria-pressed", i===(cur.isM?cur.styleIdx:cur.optIdx)));
+  [...$("#sheet-sweet").children].forEach((b,i)=>b.setAttribute("aria-pressed", i===cur.sweetIdx));
+  renderMilks();
+
+  const sw = SWEET[cur.sweetIdx];
+  const kind = cur.isM ? curStyle().kind : "";
+  $("#pv-liquid").setAttribute("fill", curColor());
+  $("#pv-liquid").setAttribute("opacity", (kind==="clear"||kind==="coco") ? .82 : 1);
+  $("#pv-cloudbase").setAttribute("opacity", (kind==="coco"||kind==="cloud") ? 1 : 0);
+  $("#pv-cap").setAttribute("opacity", kind==="cloud" ? 1 : 0);
+  $("#pv-straw").setAttribute("fill", cur.isM ? "#182A4E" : "#EE6A2C");
+
+  const lab = curLabel();
+  $("#pv-name").textContent = cur.d.name + (lab ? " · " + lab : "");
+  $("#pv-style").textContent = cur.isM ? curStyle().note : "";
+  $("#pv-sweet").textContent = `หวาน ${sw.pct} (${sw.g}g) · ${cur.isM?"14":"16"} oz`;
+  $("#pv-price").textContent = curPrice()*cur.qty;
+  $("#q-num").textContent = cur.qty;
+  $("#add-btn").textContent = `เพิ่มลงออเดอร์ · ${curPrice()*cur.qty}฿`;
+}
+
+$("#q-plus").onclick = ()=>{ cur.qty=Math.min(20,cur.qty+1); paint(); };
+$("#q-minus").onclick = ()=>{ cur.qty=Math.max(1,cur.qty-1); paint(); };
+
+$("#add-btn").onclick = ()=>{
+  const sw = SWEET[cur.sweetIdx];
+  cart.push({
+    name: cur.d.name,
+    opt: curLabel(),
+    sweet: sw.pct,
+    note: $("#sheet-note").value.trim(),
+    unit: curPrice(),
+    qty: cur.qty
+  });
+  hide($("#sheet"));
+  renderBar();
+  toast(`เพิ่ม ${cur.d.name} แล้ว`);
+};
+
+/* ---------------- bar + order ---------------- */
+function totalQty(){ return cart.reduce((a,i)=>a+i.qty,0); }
+function totalSum(){ return cart.reduce((a,i)=>a+i.qty*i.unit,0); }
+
+function renderBar(){
+  const bar = $("#bar");
+  if(!cart.length){ bar.hidden = true; return; }
+  bar.hidden = false;
+  $("#bar-count").textContent = `${totalQty()} แก้ว`;
+  $("#bar-items").textContent = cart.map(i=>i.name).join(" · ").slice(0,42);
+  $("#bar-total").textContent = baht(totalSum());
+}
+
+function renderOrder(){
+  const box = $("#order-list"); box.innerHTML="";
+  if(!cart.length){
+    box.appendChild(el("div","empty","ยังไม่มีรายการ — แตะเมนูที่อยากได้เพื่อเริ่มสั่ง"));
+  }
+  cart.forEach((it,idx)=>{
+    const row = el("div","oitem");
+    row.innerHTML = `<div class="t">
+        <b class="en">${it.name}${it.opt?" · "+it.opt:""}</b>
+        <p>หวาน ${it.sweet}${it.note?" · "+it.note:""}</p>
+        <div class="mini">
+          <button data-a="minus" data-i="${idx}" aria-label="ลด">−</button>
+          <b>${it.qty}</b>
+          <button data-a="plus" data-i="${idx}" aria-label="เพิ่ม">+</button>
+        </div>
+      </div>
+      <div class="p en">${baht(it.unit*it.qty)}฿</div>`;
+    box.appendChild(row);
+  });
+  box.querySelectorAll("button").forEach(b=>{
+    b.onclick = ()=>{
+      const i = +b.dataset.i;
+      if(b.dataset.a==="plus") cart[i].qty++;
+      else { cart[i].qty--; if(cart[i].qty<=0) cart.splice(i,1); }
+      renderOrder(); renderBar();
+    };
+  });
+  $("#order-total").textContent = baht(totalSum());
+  $("#copy-btn").disabled = !cart.length;
+}
+
+$("#bar-go").onclick = ()=>{ renderOrder(); show($("#osheet")); };
+
+/* ---------------- copy ---------------- */
+function orderText(){
+  const lines = ["desk club — สั่งเครื่องดื่ม",""];
+  cart.forEach((it,i)=>{
+    let l = `${i+1}. ${it.name}${it.opt?" / "+it.opt:""} / หวาน ${it.sweet} x${it.qty} = ${it.unit*it.qty}฿`;
+    if(it.note) l += `\n   หมายเหตุ: ${it.note}`;
+    lines.push(l);
+  });
+  lines.push("", `รวม ${totalQty()} แก้ว = ${totalSum()} บาท`);
+  const nm = $("#order-name").value.trim();
+  if(nm) lines.push(`ชื่อ: ${nm}`);
+  return lines.join("\n");
+}
+
+async function copyText(t){
+  try{
+    await navigator.clipboard.writeText(t);
+    return true;
+  }catch(e){
+    const ta = document.createElement("textarea");
+    ta.value = t;
+    ta.style.cssText = "position:fixed;top:0;left:0;opacity:0";
+    document.body.appendChild(ta);
+    ta.focus(); ta.select(); ta.setSelectionRange(0, t.length);
+    let ok=false;
+    try{ ok = document.execCommand("copy"); }catch(_){}
+    document.body.removeChild(ta);
+    return ok;
+  }
+}
+
+$("#copy-btn").onclick = async ()=>{
+  const t = orderText();
+  const ok = await copyText(t);
+  toast(ok ? "คัดลอกแล้ว — กลับไปวางในแชทได้เลย" : "คัดลอกไม่สำเร็จ ลองแตะค้างที่ข้อความเพื่อคัดลอก");
+  if(ok){ setTimeout(()=>hide($("#osheet")), 900); }
+};
+
+/* ---------------- sheet plumbing ---------------- */
+let openSheet = null;
+function show(s){
+  openSheet = s;
+  $("#scrim").classList.add("on");
+  s.classList.add("on");
+  document.body.style.overflow="hidden";
+}
+function hide(s){
+  (s||openSheet)?.classList.remove("on");
+  $("#scrim").classList.remove("on");
+  document.body.style.overflow="";
+  openSheet = null;
+}
+$("#scrim").onclick = ()=>hide();
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") hide(); });
+
+/* swipe down to close */
+[["#sheet"],["#osheet"]].forEach(([sel])=>{
+  const s = $(sel); let y0=null;
+  s.addEventListener("touchstart",e=>{ if(s.querySelector(".sheet-body").scrollTop<=0) y0=e.touches[0].clientY; },{passive:true});
+  s.addEventListener("touchmove",e=>{
+    if(y0===null) return;
+    const dy = e.touches[0].clientY-y0;
+    if(dy>0) s.style.transform=`translateY(${dy}px)`;
+  },{passive:true});
+  s.addEventListener("touchend",e=>{
+    if(y0===null) return;
+    const dy = (e.changedTouches[0].clientY-y0);
+    s.style.transform="";
+    if(dy>110) hide(s);
+    y0=null;
+  });
+});
+
+let toastT;
+function toast(msg){
+  const t = $("#toast");
+  t.textContent = msg; t.classList.add("on");
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>t.classList.remove("on"), 2200);
+}
+
+renderMatcha(); renderOther(); renderBar();
+</script>
+</body>
+</html>
