@@ -77,6 +77,8 @@ code{background:#EDE9DF;padding:1px 5px;border-radius:4px;font-size:12px}
     <p class="label">กาแฟ ชา โกโก้</p><div id="g-other"></div>
 
     <div id="msg" class="msg"></div>
+    <button id="reset-cfg" style="margin:18px auto 0;display:block;color:var(--mute);
+      font-size:13px;text-decoration:underline">แก้ token / ชื่อรีโป</button>
   </div>
 </div>
 
@@ -89,14 +91,14 @@ code{background:#EDE9DF;padding:1px 5px;border-radius:4px;font-size:12px}
 
 <script>
 const PATH = "availability.json";
-const BRANCH = "main";
+let BRANCH = "main";   // ตรวจจากรีโปจริงตอน boot
 
 const GROUPS = {
   matcha: { list:"items", el:"g-matcha", rows:[
     ["mydesk","My Desk","เบลนด์ของร้าน"],
-    ["mini","Mini Plus","นุ่ม ขมน้อย"],
-    ["m3","M3","ceremonial"],
-    ["isuzu","Isuzu","ceremonial"]
+    ["m3","M3","Matchazuki · smoky nutty"],
+    ["mini","Mini Peace","nutty creamy"],
+    ["isuzu","Isuzu","Marukyu Koyamaen · ceremonial"]
   ]},
   styles: { list:"styles", el:"g-styles", rows:[
     ["clear","Clear","ไม่ใส่นม"],
@@ -151,10 +153,28 @@ const headers = () => ({
   "Accept": "application/vnd.github+json"
 });
 
+function explain(status){
+  if(status === 401) return "token ผิดหรือหมดอายุ — สร้างใหม่แล้วกดแก้ token ด้านล่าง";
+  if(status === 404) return "ไม่พบรีโป หรือ token ไม่มีสิทธิ์เขียน — เช็ก 2 อย่าง: ชื่อรีโปสะกดถูกไหม (ต้องเป็น ชื่อผู้ใช้/ชื่อรีโป) และ token ต้องตั้ง Contents เป็น Read and write พร้อมเลือกรีโปนี้ไว้";
+  if(status === 403) return "token ถูกปฏิเสธ — อาจยังไม่ได้อนุมัติสิทธิ์ให้รีโปนี้";
+  if(status === 409) return "ไฟล์ถูกแก้จากที่อื่นระหว่างนี้ — รีเฟรชหน้าแล้วลองใหม่";
+  return `ผิดพลาด (${status})`;
+}
+
+// เช็กว่ารีโปเข้าถึงได้จริง และหา branch หลักของรีโปเอง
+async function checkRepo(){
+  const res = await fetch(`https://api.github.com/repos/${cfg.repo}`, { headers: headers() });
+  if(!res.ok) throw new Error(explain(res.status));
+  const info = await res.json();
+  BRANCH = info.default_branch || "main";
+  if(!info.permissions || !info.permissions.push)
+    throw new Error("token อ่านรีโปได้แต่เขียนไม่ได้ — ตั้ง Contents เป็น Read and write");
+}
+
 async function load(){
   const res = await fetch(`${api(PATH)}?ref=${BRANCH}&t=${Date.now()}`, { headers: headers() });
   if(res.status === 404){ sha = null; return; }          // ยังไม่มีไฟล์ เดี๋ยวสร้างให้
-  if(!res.ok) throw new Error(`อ่านไฟล์ไม่ได้ (${res.status})`);
+  if(!res.ok) throw new Error(explain(res.status));
   const data = await res.json();
   sha = data.sha;
   const json = JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g,"")))));
@@ -171,7 +191,7 @@ async function save(){
       content, branch: BRANCH, ...(sha ? { sha } : {})
     })
   });
-  if(!res.ok) throw new Error(`บันทึกไม่ได้ (${res.status})`);
+  if(!res.ok) throw new Error(explain(res.status));
   sha = (await res.json()).content.sha;                   // เก็บ sha ใหม่ กดซ้ำได้เลย
 }
 
@@ -203,6 +223,12 @@ function show(text, kind){
   m.textContent = text;
 }
 
+$("#reset-cfg").onclick = ()=>{
+  try{ localStorage.removeItem("dc_token"); localStorage.removeItem("dc_repo"); }catch(e){}
+  cfg = { token:"", repo:"" };
+  $("#app").hidden = true; $("#bar").hidden = true; $("#setup").hidden = false;
+};
+
 $("#note").oninput = e => state.note = e.target.value;
 
 $("#all-on").onclick = ()=>{
@@ -217,7 +243,7 @@ $("#save").onclick = async ()=>{
     await save();
     show("บันทึกแล้ว · เมนูจะอัปเดตใน 1–2 นาที","ok");
   }catch(e){
-    show(e.message + " — ถ้าเป็น 401 แปลว่า token หมดอายุหรือผิด", "err");
+    show(e.message, "err");
   }
   $("#save").disabled = false;
   $("#save").textContent = "บันทึก";
@@ -228,6 +254,7 @@ async function boot(){
   if(!loadCfg()){ $("#setup").hidden = false; return; }
   $("#setup").hidden = true;
   try{
+    await checkRepo();
     await load();
     $("#app").hidden = false;
     $("#bar").hidden = false;
