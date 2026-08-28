@@ -98,11 +98,11 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 .rec{font-style:normal;font-family:"Archivo",sans-serif;font-size:8.5px;letter-spacing:.12em;
   color:var(--orange);font-weight:700;margin-bottom:2px}
 .opt[aria-pressed="true"] .rec{color:#F5A97A}
-.today{display:flex;gap:11px;align-items:flex-start;margin:16px 0 2px;
-  padding:13px 15px;background:var(--matcha);border:1px solid #C9D89F;border-radius:14px}
-.today .sq{margin-top:5px;flex:none}
-.today b{font-size:9.5px;letter-spacing:.18em;color:#5C6B3A;display:block}
-.today p{margin:3px 0 0;font-size:13.5px;line-height:1.42;color:var(--navy)}
+.today{margin:16px 0 2px;padding-top:13px;border-top:1px solid var(--line)}
+.today b{font-size:9.5px;letter-spacing:.2em;color:var(--ink-mute);
+  display:flex;align-items:center;gap:7px}
+.today b:before{content:"";width:7px;height:7px;background:var(--orange);flex:none}
+.today p{margin:7px 0 0;font-size:14px;line-height:1.45;color:var(--navy);font-weight:500}
 .card .txt{flex:1;min-width:0}
 .card h3{margin:0;font-family:"Archivo",sans-serif;font-weight:800;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .tag{font-size:9px;letter-spacing:.1em;padding:3px 6px;border:1px solid var(--navy);border-radius:4px;font-family:"Archivo",sans-serif;font-weight:700}
@@ -242,8 +242,8 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
   <div class="hero">
     <h1 class="en">MENU<span>.</span></h1>
     <div id="today" class="today" hidden>
-      <span class="sq"></span>
-      <div><b class="en">TODAY</b><p id="today-text"></p></div>
+      <b class="en">TODAY</b>
+      <p id="today-text"></p>
     </div>
   </div>
 
