@@ -98,11 +98,14 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 .rec{font-style:normal;font-family:"Archivo",sans-serif;font-size:8.5px;letter-spacing:.12em;
   color:var(--orange);font-weight:700;margin-bottom:2px}
 .opt[aria-pressed="true"] .rec{color:#F5A97A}
-.today{margin:16px 0 2px;padding-top:13px;border-top:1px solid var(--line)}
-.today b{font-size:9.5px;letter-spacing:.2em;color:var(--ink-mute);
-  display:flex;align-items:center;gap:7px}
+/* padding ล่างน้อยกว่าบน 3px เพื่อชดเชย line-height ที่ดันช่องว่างใต้ตัวอักษร
+   ตาจะเห็นว่าบนล่างเท่ากันพอดี */
+.today{margin:16px 0 2px;padding:14px 15px 11px;background:#FBE7DA;
+  border:1px solid #F2D0BA;border-radius:14px}
+.today b{font-size:9.5px;letter-spacing:.2em;color:#BE5320;
+  display:flex;align-items:center;gap:7px;line-height:1}
 .today b:before{content:"";width:7px;height:7px;background:var(--orange);flex:none}
-.today p{margin:7px 0 0;font-size:14px;line-height:1.45;color:var(--navy);font-weight:500}
+.today p{margin:7px 0 0;font-size:14px;line-height:1.4;color:var(--navy);font-weight:500}
 .card .txt{flex:1;min-width:0}
 .card h3{margin:0;font-family:"Archivo",sans-serif;font-weight:800;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .tag{font-size:9px;letter-spacing:.1em;padding:3px 6px;border:1px solid var(--navy);border-radius:4px;font-family:"Archivo",sans-serif;font-weight:700}
